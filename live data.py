@@ -1,15 +1,15 @@
 import yfinance
 import numpy
 import pandas
-import time
+import streamlit as st
 import scipy.ndimage
 from scipy.ndimage import gaussian_filter1d
 from arch import arch_model
 import pandas
 
-pds = input('choose number of days for the EMA (1mo,3mo,6mo,1y)')
-interval = input("intervals of period (1m,2m,5m,10m,30m)")
-ticker = input('symbol')
+pds = st.text_input('choose number of days for the EMA (1mo,3mo,6mo,1y)')
+interval = st.text_input("intervals of period (1m,2m,5m,10m,30m)")
+ticker = st.text_input('symbol')
 
 periods = -1 * int(input('number of days in days'))
 
