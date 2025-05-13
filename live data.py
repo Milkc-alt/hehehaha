@@ -121,20 +121,21 @@ if run_sim:
     - **Volatility (σ)**: `{sigma:.4f}`  
     - **Expected Return (μ)**: `{mu:.4f}`
     """)
+    # Final simulated prices
+    final_prices = smooth_path[:, -1]
+    prob_up = np.mean(final_prices > S0)
+    prob_down = 1 - prob_up
 
-# Final simulated prices
-final_prices = smooth_path[:, -1]
-prob_up = np.mean(final_prices > S0)
-prob_down = 1 - prob_up
+    # Streamlit display
+    st.subheader("📊 Simulation Probabilities & Stats")
+    st.write(f"**Probability Price Increases:** {prob_up:.2%}")
+    st.write(f"**Probability Price Decreases:** {prob_down:.2%}")
+    st.write(f"**Min Simulated Price:** {final_prices.min():.2f}")
+    st.write(f"**Max Simulated Price:** {final_prices.max():.2f}")
+    st.write(f"**Volatility (Sigma):** {sigma:.4f}")
+    st.write(f"**Expected Return (Mu):** {mu:.4f}")
 
-# Streamlit display
-st.subheader("📊 Simulation Probabilities & Stats")
-st.write(f"**Probability Price Increases:** {prob_up:.2%}")
-st.write(f"**Probability Price Decreases:** {prob_down:.2%}")
-st.write(f"**Min Simulated Price:** {final_prices.min():.2f}")
-st.write(f"**Max Simulated Price:** {final_prices.max():.2f}")
-st.write(f"**Volatility (Sigma):** {sigma:.4f}")
-st.write(f"**Expected Return (Mu):** {mu:.4f}")
+
 
 # ------------------------ Footer ------------------------
 st.markdown("---")
