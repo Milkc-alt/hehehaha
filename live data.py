@@ -101,7 +101,7 @@ if run_sim:
         jump_mult = np.clip(np.exp(jump_size), 0.95, 1.05)
 
         log_prev = np.log(paths[:, i - 1])
-        log_new = log_prev + theta * (float(long_mean) - log_prev) * dt + sigma * np.sqrt(dt) * Z
+        log_new = log_prev + theta * (long_mean - log_prev) * dt + sigma * np.sqrt(dt) * Z
         paths[:, i] = np.exp(log_new)
         paths[:, i] *= np.where(J > 0, jump_mult, 1.0)
         paths[:, i] = np.maximum(paths[:, i], 0.01)
