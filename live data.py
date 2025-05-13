@@ -7,7 +7,7 @@ from scipy.ndimage import gaussian_filter1d
 from arch import arch_model
 import matplotlib.pyplot as plt
 
-st.title("Stock Price Probability Estimator")
+st.title("Stock Price Probability")
 
 # User inputs
 pds = st.selectbox('Choose number of days for the EMA', ['1mo', '3mo', '6mo', '1y'])
@@ -72,7 +72,7 @@ if ticker:
 
     for i in range(1, N):
         Z = np.random.standard_normal(M)
-        J = np.random.poisson(lam=0.05 * dt, size=M)
+        J = np.random.poisson(lam=0.02 * dt, size=M)
         jump_size = np.clip(np.random.normal(loc=0, scale=0.01, size=M), -0.01, 0.01)
         jump_multiplier = np.clip(np.exp(jump_size), 0.98, 1.02)
         price_paths[:, i] = np.log(price_paths[:, i - 1]) + ((mu - 0.5 * sigma ** 2) * dt + sigma * np.sqrt(dt) * Z)
@@ -81,7 +81,7 @@ if ticker:
         price_paths[:, i] = np.exp(price_paths[:, i])
         price_paths[:, i] = np.maximum(price_paths[:, i], 0.01)
 
-    price_paths_smoothed = gaussian_filter1d(price_paths, sigma=2, axis=1)
+    #price_paths_smoothed = gaussian_filter1d(price_paths, sigma=2, axis=1)
 
     final_prices = price_paths_smoothed[:, -1]
     prob_up = np.mean(final_prices > S0)
