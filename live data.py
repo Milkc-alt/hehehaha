@@ -86,13 +86,14 @@ if run_sim:
     N = sim_days
     dt = T / N
     long_mean = np.log(S0)
+    M = 100000
 
     paths = np.zeros((sim_paths, N))
     paths[:, 0] = S0
 
     for i in range(1, N):
-        Z = np.random.normal(0, 1, num_simulations)
-        J = np.random.binomial(1, jump_prob, num_simulations)
+        Z = np.random.normal(0, 1, M)
+        J = np.random.binomial(1, jump_prob, M)
         jump_size = np.random.normal(jump_mean, jump_std, num_simulations)
         jump_mult = np.clip(np.exp(jump_size), 0.95, 1.05)
 
