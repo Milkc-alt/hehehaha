@@ -99,9 +99,12 @@ if run_sim:
         J = np.random.binomial(1, jump_prob, M)
         jump_size = np.random.normal(jump_mean, jump_std, M)
         jump_mult = np.clip(np.exp(jump_size), 0.95, 1.05)
+        print("log_prev shape:", log_prev.shape)
+        print("long_mean type:", type(long_mean), "value/shape:", getattr(long_mean, 'shape', long_mean))
+
 
         log_prev = np.log(paths[:, i - 1])  # if `paths[:, i - 1]` is a pandas Series
-        log_new = log_prev + theta * (long_mean - log_prev) * dt + sigma * np.sqrt(dt) * Z
+        log_new = log_prev + theta * (np.log(long_mean) - log_prev) * dt + sigma * np.sqrt(dt) * Z
         paths[:, i] = np.exp(log_new)
         paths[:, i] *= np.where(J > 0, jump_mult, 1.0)
         paths[:, i] = np.maximum(paths[:, i], 0.01)
