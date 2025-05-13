@@ -90,14 +90,14 @@ if run_sim:
     paths = np.zeros((sim_paths, N))
     paths[:, 0] = S0
 
-    for i in range(1, N):
-        Z = np.random.standard_normal(sim_paths)
-        J = np.random.poisson(jump_freq * dt, size=sim_paths)
-        jump_size = np.clip(np.random.normal(0, 0.01, sim_paths), -0.02, 0.02)
+    for i in range(1, steps):
+        Z = np.random.normal(0, 1, num_simulations)
+        J = np.random.binomial(1, jump_prob, num_simulations)
+        jump_size = np.random.normal(jump_mean, jump_std, num_simulations)
         jump_mult = np.clip(np.exp(jump_size), 0.95, 1.05)
 
         log_prev = np.log(paths[:, i - 1])
-        log_new = log_prev + theta * (long_mean - log_prev) * dt + sigma * np.sqrt(dt) * Z
+        log_new = log_prev + theta * (float(long_mean) - log_prev) * dt + sigma * np.sqrt(dt) * Z
         paths[:, i] = np.exp(log_new)
         paths[:, i] *= np.where(J > 0, jump_mult, 1.0)
         paths[:, i] = np.maximum(paths[:, i], 0.01)
