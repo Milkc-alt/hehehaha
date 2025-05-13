@@ -56,7 +56,7 @@ if run_sim:
 
     # Historical log returns
     log_returns = np.log(close_prices / close_prices.shift(1)).dropna()
-    series = pd.Series(log_returns.values)
+    series = pd.Series(log_returns.values.flatten)
 
     # EGARCH volatility estimate
     try:
