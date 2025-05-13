@@ -123,7 +123,7 @@ if run_sim:
     """)
 
 # Final simulated prices
-final_prices = price_paths_smoothed[:, -1]
+final_prices = smooth_path[:, -1]
 prob_up = np.mean(final_prices > S0)
 prob_down = 1 - prob_up
 
