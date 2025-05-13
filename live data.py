@@ -83,7 +83,7 @@ if ticker:
 
     #price_paths_smoothed = gaussian_filter1d(price_paths, sigma=2, axis=1)
 
-    final_prices = price_paths_smoothed[:, -1]
+    final_prices = [:, -1]
     prob_up = np.mean(final_prices > S0)
     prob_down = 1 - prob_up
 
