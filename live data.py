@@ -17,6 +17,9 @@ sim_paths = st.sidebar.slider("Number of Paths", 1000, 100000, 10000, step=1000)
 theta = st.sidebar.slider("Mean Reversion Strength (θ)", 0.01, 1.0, 0.1)
 jump_freq = st.sidebar.slider("Avg Jumps per Year", 0.0, 10.0, 2.0)
 run_sim = st.sidebar.button("Run Simulation")
+jump_prob = st.slider("Daily jump probability", 0.0, 0.2, 0.01)
+jump_mean = st.slider("Mean of jump size", -0.1, 0.1, 0.0)
+jump_std = st.slider("Std dev of jump size", 0.0, 0.2, 0.02)
 
 # ------------------------ Fetch Stock Data ------------------------
 @st.cache_data
@@ -94,7 +97,7 @@ if run_sim:
     for i in range(1, N):
         Z = np.random.normal(0, 1, M)
         J = np.random.binomial(1, jump_prob, M)
-        jump_size = np.random.normal(jump_mean, jump_std, num_simulations)
+        jump_size = np.random.normal(jump_mean, jump_std, M)
         jump_mult = np.clip(np.exp(jump_size), 0.95, 1.05)
 
         log_prev = np.log(paths[:, i - 1])
