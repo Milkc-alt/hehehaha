@@ -69,8 +69,8 @@ if run_sim:
         sigma = series.std()
 
     # Risk-free rate from 10Y treasury
-    rfr_data = yf.download("^TNX", period="1d", interval="1d")
-    rfr = rfr_data['Close'].iloc[-1] / 100 if not rfr_data.empty else 0.045
+    rfr_data = yf.download("^TNX", period="1y", interval="1d")
+    rfr = numpy.mean(rfr_data['Close']) / 100 * 365
 
     # Market return from S&P 500
     sp500 = yf.download("^GSPC", period="1y", interval="1mo")['Close']
@@ -121,6 +121,20 @@ if run_sim:
     - **Volatility (σ)**: `{sigma:.4f}`  
     - **Expected Return (μ)**: `{mu:.4f}`
     """)
+
+# Final simulated prices
+final_prices = price_paths_smoothed[:, -1]
+prob_up = np.mean(final_prices > S0)
+prob_down = 1 - prob_up
+
+# Streamlit display
+st.subheader("📊 Simulation Probabilities & Stats")
+st.write(f"**Probability Price Increases:** {prob_up:.2%}")
+st.write(f"**Probability Price Decreases:** {prob_down:.2%}")
+st.write(f"**Min Simulated Price:** {final_prices.min():.2f}")
+st.write(f"**Max Simulated Price:** {final_prices.max():.2f}")
+st.write(f"**Volatility (Sigma):** {sigma:.4f}")
+st.write(f"**Expected Return (Mu):** {mu:.4f}")
 
 # ------------------------ Footer ------------------------
 st.markdown("---")
