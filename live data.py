@@ -90,7 +90,7 @@ if run_sim:
     paths = np.zeros((sim_paths, N))
     paths[:, 0] = S0
 
-    for i in range(1, steps):
+    for i in range(1, N):
         Z = np.random.normal(0, 1, num_simulations)
         J = np.random.binomial(1, jump_prob, num_simulations)
         jump_size = np.random.normal(jump_mean, jump_std, num_simulations)
